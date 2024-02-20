@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 
 import logoImg from '../../assets/images/logo.svg';
 import landingImg from '../../assets/images/landing.svg';
@@ -18,14 +19,14 @@ export function Landing() {
         </LogoContainer>
         <HeroImage src={landingImg} alt="Plataforma de estudos" />
         <ButtonsContainer>
-          <a href="#" className="study">
+          <Link to="/study" className="study">
             <img src={studyIcon} alt="Estudar" />
             Estudar
-          </a>
-          <a href="#" className="give-classes">
+          </Link>
+          <Link to="#" className="give-classes">
             <img src={giveClassesIcon} alt="Dar aulas" />
             Dar aulas
-          </a>
+          </Link>
         </ButtonsContainer>
         <TotalConnections>
           Total de 02 conexões já realizadas <img src={purpleHeartIcon} alt="Coração roxo" />

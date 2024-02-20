@@ -53,7 +53,7 @@ export const LogoContainer = styled.div`
 
   h2 {
     text-align: initial;
-    font: 700 2.5rem Archivo;
+    font: 700 2rem Archivo;
   }
 
   img {
