@@ -14,13 +14,20 @@ export const GlobalStyle = createGlobalStyle`
   box-sizing: border-box;
 } 
 
-body {
-  background-color: ${(props) => props.theme.primaryLighter};
+html, body {
+  height: 100vh;
 }
 
-body, input, textarea, button {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 400;
-  font-size: 1rem;
+
+body {
+  background-color: ${(props) => props.theme.primary};
+}
+
+body,
+input,
+button,
+textarea {
+  font: 500 1.6rem Poppins;
+  color: ${(props) => props.theme.textBase};
 }
 `
