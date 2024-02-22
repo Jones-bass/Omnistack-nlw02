@@ -10,6 +10,7 @@ import { HeaderContent, PageHeaderWrapper, TopBarContainer } from './styles';
 interface PageHeaderProps {
   children: ReactNode;
   title: string;
+  description?: string;
 }
 
 export function PageHeader(props: PageHeaderProps ) {

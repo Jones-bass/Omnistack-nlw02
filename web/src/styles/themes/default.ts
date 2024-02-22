@@ -17,4 +17,5 @@ export const defaultTheme = {
   buttonText: '#FFFFFF',
   boxBase: '#FFFFFF',
   boxFooter: '#FAFAFC',
+  alert: '#AF0000'
 } as const

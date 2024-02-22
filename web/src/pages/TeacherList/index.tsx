@@ -56,6 +56,7 @@ export function TeacherList() {
             label="Hora"
             value={time}
             onChange={(e) => { setTime(e.target.value) }}
+            errorMessage=''
           />
 
           <button type="submit">Buscar</button>

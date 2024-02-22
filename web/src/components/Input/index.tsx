@@ -1,17 +1,22 @@
 import { InputHTMLAttributes } from 'react';
 
-import { InputBlock } from './styles';
+import { ErrosText, InputBlock } from './styles';
+import { useFormContext } from 'react-hook-form';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
-  label: string;
+  label?: string;
+  errorMessage: string
 }
 
-export function Input({ label, name, ...rest }:InputProps) {
+export function Input(props: InputProps) {
+  const { register } = useFormContext()
+
   return (
     <InputBlock>
-      <label htmlFor={name}>{label}</label>
-      <input type="text" id={name} {...rest} />
+      <label htmlFor={props.name}>{props.label}</label>
+      <input id={props.name} {...register(props.name)} {...props} />
+      {props.errorMessage ? <ErrosText>{props.errorMessage}</ErrosText> : null}
     </InputBlock>
   );
 }

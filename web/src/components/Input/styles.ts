@@ -33,3 +33,10 @@ export const InputBlock = styled.div`
     bottom: 0;
   }
 `;
+
+
+export const ErrosText = styled.p`
+  color: ${(props) => props.theme.alert};
+  font-size: 12px;
+  padding-bottom: 5px;
+`
