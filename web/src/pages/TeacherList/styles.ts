@@ -16,7 +16,7 @@ export const SearchTeachers = styled.form`
   button {
     background-color: red;
     width: 80%;
-    height: 3rem;
+    height: 3.5rem;
     background: ${(props) => props.theme.secundary};
     color: ${(props) => props.theme.buttonText};
     border: 0;

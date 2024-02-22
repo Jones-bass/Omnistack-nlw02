@@ -4,10 +4,12 @@ import { PageHeader } from '../../components/PageHeader';
 import { Select } from '../../components/Select';
 
 import { PageTeacherList, SearchTeachers } from './styles';
+import { Input } from '../../components/Input';
 
 export function TeacherList() {
   const [subject, setSubject] = useState('');
   const [week_day, setWeekDay] = useState('');
+  const [time, setTime] = useState('');
 
   return (
     <PageTeacherList>
@@ -46,6 +48,14 @@ export function TeacherList() {
               { value: '5', label: 'Sexta-feira' },
               { value: '6', label: 'Sábado' },
             ]}
+          />
+
+          <Input
+            type="time"
+            name="time"
+            label="Hora"
+            value={time}
+            onChange={(e) => { setTime(e.target.value) }}
           />
 
           <button type="submit">Buscar</button>
