@@ -11,7 +11,6 @@ export const SelectBlock = styled.div`
   select {
     width: 100%; 
     height: 3.5rem;
-    margin-top: 0.8rem;
     border-radius: 0.8rem;
     background: ${(props) => props.theme.inputBackground};
     border: 1px solid ${(props) => props.theme.lineInWhite};

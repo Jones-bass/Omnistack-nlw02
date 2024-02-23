@@ -7,33 +7,31 @@ export const TeacherFormContainer = styled.div`
 
 export const FormMain = styled.main`
   background: ${(props) => props.theme.boxBase};
-  width: 100%;
-  max-width: 74rem;
-  border-radius: 0.8rem;
-  margin: -3.2rem auto 3.2rem;
-  padding-top: 6.4rem;
+  width: 55vw;
+  border-radius: 0.8rem 0.8rem 0 0;
+  margin: auto;
   overflow: hidden;
+  padding: 2rem;
 
   fieldset {
     border: 0;
-    padding: 0 2.4rem;
 
     legend {
-      font: 700 2.4rem Archivo;
+      font: 700 1.7rem Archivo;
+      padding-top: 3rem;
       color: ${(props) => props.theme.textTitle};
-      margin-bottom: 2.4rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      padding-bottom: 1.6rem;
+      padding-bottom: 0.5rem;
       border-bottom: 1px solid ${(props) => props.theme.lineInWhite};
 
       button {
         background: none;
         border: 0;
         color: ${(props) => props.theme.primary};
-        font: 700 1.6rem Archivo;
+        font: 700 1rem Archivo;
         cursor: pointer;
         transition: color 0.2s;
 
@@ -49,33 +47,34 @@ export const FormMain = styled.main`
   }
 
   footer {
-    padding: 4rem 2.4rem;
-    background: ${(props) => props.theme.boxFooter};
+    background: ${(props) => props.theme.boxBase};
     border-top: 1px solid ${(props) => props.theme.lineInWhite};
-    margin-top: 6.4rem;
+    margin-top: 4rem;
+    padding: 2rem;
+    display: flex;
 
-    p {
+  p {
       display: flex;
       align-items: center;
       justify-content: center;
       font-size: 1.4rem;
-      line-height: 2.4rem;
+      line-height: 2rem;
       color: ${(props) => props.theme.textComplement};
 
       img {
         margin-right: 2rem;
       }
-    }
+  }
 
     button {
       width: 100%;
-      height: 5.6rem;
+      height: 4rem;
       background: ${(props) => props.theme.secundary};
       color: ${(props) => props.theme.buttonText};
       border: 0;
       border-radius: 0.8rem;
       cursor: pointer;
-      font: 700 1.6rem Archivo;
+      font: 700 1.2rem Archivo;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -86,32 +85,31 @@ export const FormMain = styled.main`
       &:hover {
         background: ${(props) => props.theme.secundaryDark};
       }
-    }
+    } 
   }
 
-  @media (min-width: 700px) {
-    max-width: 100vw;
-    margin-bottom: 0;
+  @media (max-width: 768px) {
+    width: 100%;
 
     fieldset {
-      padding: 0 6.4rem;
+      padding: 0 2rem;
     }
 
     footer {
-      padding: 4.0rem 6.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
+      display: grid;
+      padding: 1rem 1.5rem 1rem 1.5rem;
+      gap: 2rem;
+   
       p {
         justify-content: space-between;
       }
 
       button {
-        width: 20rem;
-        margin-top: 0;
+        width: 100%;
+        margin: auto;
+        margin-bottom: 1rem;
       }
     }
-  }
+  } 
 `;
 

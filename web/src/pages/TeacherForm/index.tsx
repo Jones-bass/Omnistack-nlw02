@@ -11,6 +11,7 @@ import { Input } from '../../components/Input';
 
 import { Loading } from '../../components/loading';
 import { FormMain, TeacherFormContainer } from './styles';
+import { Select } from '../../components/Select';
 
 const createUserSchema = z.object({
   nome: z
@@ -28,6 +29,21 @@ const createUserSchema = z.object({
     .string()
     .min(1, {
       message: 'Campo obrigatório',
+    }),
+  cost: z
+    .string()
+    .min(1, {
+      message: 'Campo obrigatório',
+    }),
+  from: z
+    .string()
+    .min(1, {
+      message: 'Campo obrigatório',
+    }),
+  to: z
+    .string()
+    .min(1, {
+      message: 'Campo obrigatório',
     })
 })
 
@@ -35,6 +51,8 @@ type CreateUserData = z.infer<typeof createUserSchema>
 
 export function TeacherForm() {
   const [loading, setLoading] = useState(false)
+  const [subject, setSubject] = useState('')
+
 
   const createUserForm = useForm<CreateUserData>({
     resolver: zodResolver(createUserSchema),
@@ -87,6 +105,57 @@ export function TeacherForm() {
                 name="whatsapp"
                 label="Whatsapp"
                 errorMessage={errors?.whatsapp?.message ?? ''}
+              />
+            </fieldset>
+
+            <fieldset>
+              <legend>Sobre a aula</legend>
+
+              <Select
+                name="subject"
+                label="Matéria"
+                value={subject}
+                onChange={(e) => { setSubject(e.target.value) }}
+                options={[
+                  { value: 'Artes', label: 'Artes' },
+                  { value: 'Biologia', label: 'Biologia' },
+                  { value: 'Ciências', label: 'Ciências' },
+                  { value: 'Educação física', label: 'Educação física' },
+                  { value: 'Física', label: 'Física' },
+                  { value: 'Geografia', label: 'Geografia' },
+                  { value: 'História', label: 'História' },
+                  { value: 'Matemática', label: 'Matemática' },
+                  { value: 'Português', label: 'Português' },
+                  { value: 'Química', label: 'Química' },
+                ]}
+              />
+
+              <Input
+                name="cost"
+                label="Custo da sua hora por aula"
+                errorMessage={errors?.cost?.message ?? ''}
+              />
+            </fieldset>
+            <fieldset>
+              <legend>
+                Horários disponíveis
+                <button type="button">
+                  + Novo horário
+                </button>
+              </legend>
+
+              <Input
+                name="from"
+                label="Das"
+                type="time"
+                errorMessage={errors?.from?.message ?? ''}
+              />
+
+              <Input
+                name="to"
+                label="Até"
+                type="time"
+                errorMessage={errors?.to?.message ?? ''}
               />
 
             </fieldset>
