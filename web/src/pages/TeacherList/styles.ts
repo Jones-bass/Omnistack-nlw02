@@ -7,15 +7,14 @@ export const PageTeacherList = styled.div`
 
 
 export const SearchTeachers = styled.form`
-  top: 15rem;
-
+  top: 14rem;
+  
   label {
     color: ${(props) => props.theme.textInPrimary};
   }
 
   button {
-    background-color: red;
-    width: 80%;
+    width: 100%;
     height: 3.5rem;
     background: ${(props) => props.theme.secundary};
     color: ${(props) => props.theme.buttonText};
@@ -28,7 +27,7 @@ export const SearchTeachers = styled.form`
     justify-content: center;
     text-decoration: none;
     transition: background-color 0.2s;
-    margin-top: 3.2rem;
+    margin-top: 2.4rem;
 
     &:hover {
       background: ${(props) => props.theme.secundaryDark};
@@ -41,10 +40,5 @@ export const SearchTeachers = styled.form`
     column-gap: 16px;
     position: absolute;
     bottom: -28px;
-
-    .input-block + .input-block,
-    .select-block + .select-block {
-      margin-top: 0;
-    }
   }
 `;
