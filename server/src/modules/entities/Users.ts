@@ -2,9 +2,11 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid'
+import { Classes } from './Classes'
 
 @Entity('users')
 export class Users {
@@ -25,6 +27,9 @@ export class Users {
 
   @CreateDateColumn()
   created_at: Date
+
+  @OneToMany(() => Classes, (classEntity) => classEntity.user)
+  classes: Classes[]
 
   constructor() {
     if (!this.id) {

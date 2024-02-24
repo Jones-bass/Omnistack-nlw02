@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { container } from 'tsyringe'
 import { Response, Request } from 'express'
 import { CreateUsersUseCase } from './CreateUsersUseCase'
@@ -5,15 +6,23 @@ import { CreateUsersUseCase } from './CreateUsersUseCase'
 export class CreateUsersController {
   async handle(request: Request, response: Response): Promise<Response> {
     try {
-      const { avatar, bio, name, whatsapp } = request.body
+      const {
+        avatar, 
+        bio,
+        name,
+        whatsapp,
+        subject,
+        cost,
+        schedule, 
+    } = request.body
 
       const createTodoUseCase = container.resolve(CreateUsersUseCase)
 
-      await createTodoUseCase.execute({ avatar, bio, name, whatsapp })
+      await createTodoUseCase.execute({ avatar, bio, name, whatsapp, subject, cost, schedule })
     } catch (err) {
       console.log(err)
     }
 
-    return response.status(201).json({ Todo: 'Criado com sucesso' })
+    return response.status(201).json({ Usuario: 'Criado com sucesso' })
   }
 }
