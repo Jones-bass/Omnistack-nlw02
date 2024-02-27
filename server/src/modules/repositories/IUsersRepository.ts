@@ -8,7 +8,7 @@ export interface ScheduleItem {
 }
 
 export interface ICreateUsersDTO {
-  name: string;
+  nome: string;
   avatar: string;
   whatsapp: string;
   bio: string;  

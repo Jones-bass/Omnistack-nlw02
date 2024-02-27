@@ -26,7 +26,7 @@ export class UsersRepository implements IUsersRepository {
   async create({
     avatar,
     bio,
-    name,
+    nome,
     whatsapp,
     subject,
     cost,
@@ -35,7 +35,7 @@ export class UsersRepository implements IUsersRepository {
     const createUser = this.repository.create({
       avatar,
       bio,
-      name,
+      nome,
       whatsapp,
     })
 

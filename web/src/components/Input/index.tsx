@@ -1,19 +1,41 @@
 import { InputHTMLAttributes } from 'react';
 
-import { InputBlock } from './styles';
+import { ErrosText, InputBlock } from './styles';
+import { Control, Controller, FieldError } from 'react-hook-form';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: string;
+  name: "nome" | "avatar" | "whatsapp" | "bio" | "subject" | "cost" | `schedule.${number}.from` | `schedule.${number}.to` | `schedule.${number}.week_day`;
   label?: string;
+  error?: FieldError;
+  control: Control | any
 }
 
-export function Input(props: InputProps) {
-
+export function Input({ name, label, error, control, ...rest }: InputProps) {
   return (
+    <>
     <InputBlock>
-      <label htmlFor={props.name}>{props.label}</label>
-      <input id={props.name} {...props} />
+    <label htmlFor={label}>{label}</label>
+
+
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: { onChange, onBlur, ref } }) => (
+          
+          <input 
+            {...rest}
+            onChange={onChange}
+            onBlur={onBlur}
+            ref={ref}
+          />
+          
+          )}
+      />
+
+    {error && <ErrosText>{error.message}</ErrosText>} 
+
     </InputBlock>
+  </>
+   
   );
 }
-

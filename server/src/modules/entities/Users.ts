@@ -14,7 +14,7 @@ export class Users {
   id: string
 
   @Column({ type: 'text' })
-  name: string
+  nome: string
 
   @Column({ type: 'text' })
   avatar: string

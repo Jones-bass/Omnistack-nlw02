@@ -9,7 +9,7 @@ interface ScheduleItem {
 }
 
 interface IRequest {
-  name: string
+  nome: string
   avatar: string
   whatsapp: string
   bio: string
@@ -25,7 +25,7 @@ export class CreateUsersUseCase {
     private usersRepository: UsersRepository,
   ) {}
 
-  async execute({ avatar, bio, name, whatsapp, subject, cost, schedule }: IRequest): Promise<void> {
-    await this.usersRepository.create({ avatar, bio, name, whatsapp, subject, cost, schedule })
+  async execute({ avatar, bio, nome, whatsapp, subject, cost, schedule }: IRequest): Promise<void> {
+    await this.usersRepository.create({ avatar, bio, nome, whatsapp, subject, cost, schedule })
   }
 }

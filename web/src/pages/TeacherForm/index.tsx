@@ -1,95 +1,98 @@
-import { FormEvent, useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import warningIcon from '../../assets/images/icons/warning.svg';
-
 import { PageHeader } from '../../components/PageHeader';
 import { Input } from '../../components/Input';
+import { Select } from '../../components/Select';
+import { Loading } from '../../components/loading';
+
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useFieldArray, useForm } from 'react-hook-form';
+
+import { api } from '../../services/api';
+import { toast } from 'react-toastify';
 
 import { FormMain, TeacherFormContainer } from './styles';
-import { Select } from '../../components/Select';
-import { api } from '../../services/api';
-import * as Yup from 'yup';
 
-const schema = Yup.object().shape({
-  name: Yup.string().required('Nome é obrigatório'),
+const schema = Yup.object({
+  nome: Yup.string().required('Nome é obrigatório'),
   avatar: Yup.string().required('Avatar é obrigatório'),
   whatsapp: Yup.string().required('Whatsapp é obrigatório'),
   bio: Yup.string().required('Biografia é obrigatória'),
   subject: Yup.string().required('Matéria é obrigatória'),
-  cost: Yup.number().required('Custo deve ser um valor válido'),
-  scheduleItems: Yup.array().of(
-    Yup.object().shape({
+  cost: Yup.number()
+    .required('O custo é obrigatório')
+    .typeError('O custo deve ser um número') 
+    .min(20, 'O custo não acima de R$20'),
+  schedule: Yup.array().of(
+    Yup.object({
       week_day: Yup.number().required('Dia da semana é obrigatório'),
       from: Yup.string().required('Horário de início é obrigatório'),
       to: Yup.string().required('Horário de término é obrigatório'),
     })
-  ),
+  )
 });
 
+export interface ScheduleItem {
+  week_day: number;
+  from: string;
+  to: string;
+}
+
+export interface CreateUserFormData {
+  nome: string;
+  avatar: string;
+  whatsapp: string;
+  bio: string;
+  subject: string;
+  cost: number;
+  schedule: ScheduleItem[];
+}
+
 export function TeacherForm() {
-  const [name, setName] = useState('');
-  const [avatar, setAvatar] = useState('');
-  const [whatsapp, setWhatsapp] = useState('');
-  const [bio, setBio] = useState('');
-  const [subject, setSubject] = useState('');
-  const [cost, setCost] = useState('');
-  const [scheduleItems, setScheduleItems] = useState([{ week_day: 0, from: '', to: '' }]);
+  const [loading, setLoading] = useState(false)
 
-  const addNewScheduleItem = () => {
-    setScheduleItems([...scheduleItems, { week_day: 0, from: '', to: '' }]);
-  };
-
-
-  const handleScheduleItemChange = useCallback(
-    (index: number, field: string, value: string) => {
-      const updatedScheduleItems = scheduleItems.map((item, i) =>
-        i === index ? { ...item, [field]: value } : item
-      );
-      setScheduleItems(updatedScheduleItems);
-    },
-    [scheduleItems]
-  );
-
-  const handleFormSubmit = useCallback(
-    async (e: FormEvent) => {
-      e.preventDefault();
-
-      try {
-        await schema.validate(
-          {
-            name,
-            avatar,
-            whatsapp,
-            bio,
-            subject,
-            cost,
-            scheduleItems,
-          },
-        );
-
-        await api.post('users', {
-          name,
-          avatar,
-          whatsapp,
-          bio,
-          subject,
-          cost: Number(cost),
-          schedule: scheduleItems,
-        });
-
-        alert('Cadastro realizado com sucesso!');
-      } catch (err) {
-        if (err instanceof Yup.ValidationError) {
-          console.error(err);
-        } else {
-          console.error(err);
-          alert('Ocorreu um erro!');
+  const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    resolver: yupResolver(schema),
+    defaultValues: {
+      nome: '',
+      avatar: '',
+      whatsapp: '',
+      bio: '',
+      subject: '',
+      cost: 0,
+      schedule: [
+        {
+          week_day: 0,
+          from: '',
+          to: '',
         }
-      }
-    },
-    [name, avatar, whatsapp, bio, subject, cost, scheduleItems]
-  );
+      ]
+    }
+  });
 
+  const { fields } = useFieldArray({
+    control: control,
+    name: "schedule"
+  });
+
+
+  const handleCreateSessionSlider = async (data: CreateUserFormData) => {
+    const { nome, avatar, whatsapp, bio, subject, cost, schedule } = data
+
+    await api.post('users', {
+      nome, avatar, whatsapp, bio, subject, cost, schedule
+    })
+
+    if (data !== undefined) {
+      toast.success('Classe criada com sucesso!')
+      return;
+    }
+    toast.error('Erro ao criar a classe!')
+
+    setLoading(false)
+  }
 
   return (
     <TeacherFormContainer>
@@ -99,38 +102,37 @@ export function TeacherForm() {
       />
 
       <FormMain>
-
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit(handleCreateSessionSlider)}>
           <fieldset>
             <legend>Seus dados</legend>
 
-         
+
             <Input
-              name="name"
+              name='nome'
               label="Nome completo"
-              value={name}
-              onChange={e => setName(e.target.value)}
+              error={errors.nome}
+              control={control}
             />
 
             <Input
-              name="avatar"
+              name='avatar'
               label="Avatar"
-              value={avatar}
-              onChange={e => setAvatar(e.target.value)}
+              error={errors.avatar}
+              control={control}
             />
 
             <Input
-              name="whatsapp"
+              name='whatsapp'
               label="Whatsapp"
-              value={whatsapp}
-              onChange={e => setWhatsapp(e.target.value)}
+              error={errors.whatsapp}
+              control={control}
             />
 
             <Input
-              name="bio"
+              name='bio'
               label="Biografia"
-              value={bio}
-              onChange={e => setBio(e.target.value)}
+              error={errors.bio}
+              control={control}
             />
 
           </fieldset>
@@ -139,10 +141,8 @@ export function TeacherForm() {
             <legend>Sobre a aula</legend>
 
             <Select
-              name="subject"
+              name='subject'
               label="Matéria"
-              value={subject}
-              onChange={(e) => { setSubject(e.target.value) }}
               options={[
                 { value: 'Artes', label: 'Artes' },
                 { value: 'Biologia', label: 'Biologia' },
@@ -155,33 +155,31 @@ export function TeacherForm() {
                 { value: 'Português', label: 'Português' },
                 { value: 'Química', label: 'Química' },
               ]}
+              error={errors.subject}
+              control={control}
             />
 
             <Input
-              name="cost"
+              name='cost'
               label="Custo da sua hora por aula"
-              value={cost}
-              onChange={e => setCost(e.target.value)}
+              error={errors.cost}
+              control={control}
             />
 
           </fieldset>
           <fieldset>
             <legend>
               Horários disponíveis
-              <button type="button" onClick={addNewScheduleItem}>
+              <button type="button">
                 + Novo horário
               </button>
             </legend>
 
-            {scheduleItems.map((scheduleItem, index) => (
-              <div key={scheduleItem.week_day} className="schedule-item">
+            {fields.map((field, index) => (
+              <div key={field.id} className="schedule-item">
                 <Select
-                  name="week-day"
+                  name={`schedule.${index}.week_day`}
                   label="Dia da Semana"
-                  value={scheduleItem.week_day}
-                  onChange={e => {
-                    handleScheduleItemChange(index, 'week_day', e.target.value);
-                  }}
                   options={[
                     { value: '0', label: 'Domingo' },
                     { value: '1', label: 'Segunda-Feira' },
@@ -191,27 +189,25 @@ export function TeacherForm() {
                     { value: '5', label: 'Sexta-Feira' },
                     { value: '6', label: 'Sabado' },
                   ]}
+                  error={errors.schedule && errors.schedule[index]?.week_day}
+                  control={control}
+
                 />
                 <Input
-                  name="from"
+                  name={`schedule.${index}.from`}
                   label="Das"
                   type="time"
-                  value={scheduleItem.from}
-                  onChange={e => {
-                    handleScheduleItemChange(index, 'from', e.target.value);
-                  }}
+                  error={errors.schedule && errors.schedule[index]?.from}
+                  control={control}
 
                 />
 
                 <Input
-                  name="to"
+                  name={`schedule.${index}.to`}
                   label="Até"
                   type="time"
-                  value={scheduleItem.to}
-                  onChange={e => {
-                    handleScheduleItemChange(index, 'to', e.target.value);
-                  }}
-
+                  error={errors.schedule && errors.schedule[index]?.to}
+                  control={control}
                 />
 
               </div>
@@ -224,12 +220,13 @@ export function TeacherForm() {
               Importante! <br />
               Preencha todos os dados
             </p>
-            <button type="submit"> Salvar cadastro
+            <button type="submit" disabled={isSubmitting}>
+              {loading ? <Loading /> : 'Salvar cadastro'}
             </button>
           </footer>
         </form>
       </FormMain>
-    </TeacherFormContainer>
+    </TeacherFormContainer >
   )
 }
 
