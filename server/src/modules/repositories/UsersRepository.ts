@@ -5,12 +5,15 @@ import {
   ICreateUsersDTO,
   IUsersRepository,
   ScheduleItem,
+  ScheduleItems,
 } from './IUsersRepository'
 
 import { Users } from '../entities/Users'
 import { ClassSchedule } from '../entities/ClassSchedule'
 import { Classes } from '../entities/Classes'
 import { convertHoursToMinutes } from '../../utils/convertHourtToMinuts'
+
+export type CombinedResult = ClassSchedule[] | Classes[] | undefined
 
 export class UsersRepository implements IUsersRepository {
   private repository: Repository<Users>
@@ -61,5 +64,30 @@ export class UsersRepository implements IUsersRepository {
     await this.classScheduleRepository.save(classSchedule)
 
     return user
+  }
+
+  async listClasses({
+    week_day,
+    to,
+    subject,
+  }: ScheduleItems): Promise<CombinedResult> {
+    if (week_day && to) {
+      const listClassesOn = await this.classScheduleRepository.find({
+        where: {
+          week_day,
+          to: convertHoursToMinutes(to),
+        },
+        relations: ['class'],
+      })
+
+      return listClassesOn
+    } else if (subject) {
+      const listClassesOn = await this.classesRepository.find({
+        where: { subject },
+      })
+      return listClassesOn
+    }
+
+    return undefined
   }
 }
