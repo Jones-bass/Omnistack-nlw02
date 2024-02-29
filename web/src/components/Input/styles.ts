@@ -1,14 +1,14 @@
 import styled from 'styled-components';
 
 export const InputBlock = styled.div`
-  position: relative;
+position: relative;
 
-  label {
-    font-size: 1rem;
-    padding-left: 0.3rem;
-  }
+label {
+  font-size: 1rem;
+  padding-left: 0.3rem;
+}
 
-  input {
+input {
     width: 100%;
     height: 3.5rem;
     border-radius: 0.8rem;

@@ -11,7 +11,7 @@ export const PageHeaderWrapper = styled.header`
 `;
 
 export const TopBarContainer = styled.div`
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -38,7 +38,7 @@ export const TopBarContainer = styled.div`
 `;
 
 export const HeaderContent = styled.div`
-  width: 90%;
+  width: 80%;
   margin: 0 auto;
   position: relative;
   margin: 3.2rem auto;

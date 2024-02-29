@@ -1,9 +1,6 @@
 import styled from 'styled-components';
 
-export const TeacherFormContainer = styled.div`
-  width: 100vw;
-  height: 100vh;
-`;
+export const TeacherFormContainer = styled.div``;
 
 export const FormMain = styled.main`
   background: ${(props) => props.theme.boxBase};

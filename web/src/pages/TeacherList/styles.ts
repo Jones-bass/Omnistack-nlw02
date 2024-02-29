@@ -1,8 +1,10 @@
 import styled from 'styled-components';
 
 export const PageTeacherList = styled.div`
-  width: 100vw;
-  height: 100vh;
+  main {
+    margin: 0.7rem auto;
+    width: 95%;
+  }
 `;
 
 
@@ -33,6 +35,7 @@ export const SearchTeachers = styled.form`
       background: ${(props) => props.theme.secundaryDark};
     }
   }
+
 
   @media (min-width: 700px) {
     display: grid;

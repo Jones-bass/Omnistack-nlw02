@@ -4,7 +4,7 @@ import { Control, Controller, FieldError } from 'react-hook-form';
 import { ErrosText } from '../Input/styles';
 
 interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  name: "nome" | "avatar" | "whatsapp" | "bio" | "subject" | "cost" | `schedule.${number}.from` | `schedule.${number}.to` | `schedule.${number}.week_day`;
+  name: "nome" | "avatar" | "whatsapp" | "bio" | "subject" | "cost" | "week_day" | `schedule.${number}.from` | `schedule.${number}.to` | `schedule.${number}.week_day`;
   label: string;
   options: Array<{
     value: string;
