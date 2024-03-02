@@ -14,76 +14,62 @@ import { useForm } from 'react-hook-form';
 import { Loading } from '../../components/loading';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
-import { TeacherItem } from '../../components/TeacherItem';
+import { Teacher, TeacherItem } from '../../components/TeacherItem';
 
 const schema = Yup.object({
   subject: Yup.string().required('Matéria é obrigatória'),
   week_day: Yup.number().required('Dia da semana é obrigatório'),
   time: Yup.string().required('Horário de início é obrigatório'),
-})
+
+    })
 
 export interface ScheduleItem {
   subject: string;
   week_day: number;
   time: string;
+    id: number;
+    avatar: string;
+    bio: string;
+    cost: number;
+    name: string;
+    whatsapp: string;
 }
 
 export function TeacherList() {
   const [loading, setLoading] = useState(false)
+  const [teachers, setTeachers] = useState<ScheduleItem[]>([]);
 
   const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       week_day: 0,
       subject: '',
-      time: '',
+      time: '',    
     }
   });
 
-  /** 
-  const handleOnSubmit = useCallback(
-    async (data: ScheduleItem) => {
-      try {
-        setLoading(true)
-        if (data !== undefined) {
-          alert('Tudo Certo.')
-        }
-      } catch {
-        Error('Ocorreu um erro ao fazer login, cheque as credenciais.')
-        setLoading(false)
-      }
-    }, [],
-  )
-  */
+  async function searchTeachers(data: ScheduleItem) {
+    const { time, week_day, subject } = data;
 
-  const handleOnSubmit = useCallback(
-    async (data: ScheduleItem) => {
-      const { time, week_day, subject } = data
-
-      await api.get('users', {
+    try {
+      const response = await api.get('users', {
         params: {
           subject,
           week_day,
           time,
         },
-      })
-
-      if (data !== undefined) {
-        toast.success('Classe criada com sucesso!')
-        console.log(data)
-        return;
-      }
-
-      toast.error('Erro ao criar a classe!')
-
-      setLoading(false)
-    }, [],
-  )
+      });
+      setTeachers(response.data);
+      console.log(response.data); // Verificar se os dados estão chegando corretamente
+    } catch (error) {
+      console.error('Erro ao buscar professores:', error);
+    }
+  }
 
   return (
     <PageTeacherList>
       <PageHeader title="Estes são os proffys disponíveis.">
-        <SearchTeachers onSubmit={handleSubmit(handleOnSubmit)}>
+        <SearchTeachers onSubmit={handleSubmit(searchTeachers)}>
           <Select
             name="subject"
             label="Matéria"
@@ -135,11 +121,9 @@ export function TeacherList() {
         </SearchTeachers>
       </PageHeader>
       <main>
-          <TeacherItem  />
-          <TeacherItem  />
-          <TeacherItem  />
-          <TeacherItem  />
-
+        {teachers.map((teacher: Teacher) => (
+          <TeacherItem key={teacher.id} teacher={teacher} />
+        ))}
       </main>
     </PageTeacherList>
   )

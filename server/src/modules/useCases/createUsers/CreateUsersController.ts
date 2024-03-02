@@ -9,16 +9,16 @@ export class CreateUsersController {
       const {
         avatar, 
         bio,
-        nome,
+        name,
         whatsapp,
         subject,
         cost,
         schedule, 
     } = request.body
 
-      const createTodoUseCase = container.resolve(CreateUsersUseCase)
+      const createUsersUseCase = container.resolve(CreateUsersUseCase)
 
-      await createTodoUseCase.execute({ avatar, bio, nome, whatsapp, subject, cost, schedule })
+      await createUsersUseCase.execute({ avatar, bio, name, whatsapp, subject, cost, schedule })
     } catch (err) {
       console.log(err)
     }

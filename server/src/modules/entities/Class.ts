@@ -1,17 +1,19 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid'
-import { Users } from './Users'
+import { User } from './User'
 import { ClassSchedule } from './ClassSchedule'
 
 @Entity('classes')
-export class Classes {
+export class Class {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
@@ -24,14 +26,20 @@ export class Classes {
   @Column({ type: 'text' })
   user_id: string
 
-  @ManyToOne(() => Users, (user) => user.classes)
+  @ManyToOne(() => User, (user) => user.classes)
   @JoinColumn({ name: 'user_id' })
-  user: Users
+  user: User
 
   @OneToMany(() => ClassSchedule, (classSchedule) => classSchedule.class, {
     cascade: ['insert'],
   })
   class_schedule: ClassSchedule[]
+
+  @CreateDateColumn()
+  created_at: Date
+
+  @UpdateDateColumn()
+  updated_at: Date
 
   constructor() {
     if (!this.id) {

@@ -8,37 +8,37 @@ import {
   ScheduleItems,
 } from './IUsersRepository'
 
-import { Users } from '../entities/Users'
+import { User } from '../entities/User'
 import { ClassSchedule } from '../entities/ClassSchedule'
-import { Classes } from '../entities/Classes'
+import { Class } from '../entities/Class'
 import { convertHoursToMinutes } from '../../utils/convertHourtToMinuts'
 
-export type CombinedResult = ClassSchedule[] | Classes[] | undefined
+export type CombinedResult = ClassSchedule[] | Class[] | undefined
 
 export class UsersRepository implements IUsersRepository {
-  private repository: Repository<Users>
-  private classesRepository: Repository<Classes>
+  private repository: Repository<User>
+  private classesRepository: Repository<Class>
   private classScheduleRepository: Repository<ClassSchedule>
 
   constructor() {
-    this.repository = AppDataSource.getRepository(Users)
-    this.classesRepository = AppDataSource.getRepository(Classes)
+    this.repository = AppDataSource.getRepository(User)
+    this.classesRepository = AppDataSource.getRepository(Class)
     this.classScheduleRepository = AppDataSource.getRepository(ClassSchedule)
   }
 
   async create({
     avatar,
     bio,
-    nome,
+    name,
     whatsapp,
     subject,
     cost,
     schedule,
-  }: ICreateUsersDTO): Promise<Users> {
+  }: ICreateUsersDTO): Promise<User> {
     const createUser = this.repository.create({
       avatar,
       bio,
-      nome,
+      name,
       whatsapp,
     })
 
@@ -77,13 +77,14 @@ export class UsersRepository implements IUsersRepository {
           week_day,
           to: convertHoursToMinutes(to),
         },
-        relations: ['class'],
+        relations: ['class', 'class.user'], // Adiciona o relacionamento com o usuário
       })
 
       return listClassesOn
     } else if (subject) {
       const listClassesOn = await this.classesRepository.find({
         where: { subject },
+        relations: ['user'], // Adiciona o relacionamento com o usuário
       })
       return listClassesOn
     }

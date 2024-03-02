@@ -1,4 +1,4 @@
-import { Users } from '../entities/Users'
+import { User } from '../entities/User'
 import { CombinedResult } from './UsersRepository'
 
 export interface ScheduleItem {
@@ -14,7 +14,7 @@ export interface ScheduleItems {
 }
 
 export interface ICreateUsersDTO {
-  nome: string
+  name: string
   avatar: string
   whatsapp: string
   bio: string
@@ -24,6 +24,6 @@ export interface ICreateUsersDTO {
 }
 
 export interface IUsersRepository {
-  create(data: ICreateUsersDTO): Promise<Users>
+  create(data: ICreateUsersDTO): Promise<User>
   listClasses(data: ScheduleItems): Promise<CombinedResult>
 }

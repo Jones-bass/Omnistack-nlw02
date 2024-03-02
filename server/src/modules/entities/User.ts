@@ -6,15 +6,15 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid'
-import { Classes } from './Classes'
+import { Class } from './Class'
 
 @Entity('users')
-export class Users {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string
 
   @Column({ type: 'text' })
-  nome: string
+  name: string
 
   @Column({ type: 'text' })
   avatar: string
@@ -28,8 +28,8 @@ export class Users {
   @CreateDateColumn()
   created_at: Date
 
-  @OneToMany(() => Classes, (classEntity) => classEntity.user)
-  classes: Classes[]
+  @OneToMany(() => Class, (classEntity) => classEntity.user)
+  classes: Class[]
 
   constructor() {
     if (!this.id) {

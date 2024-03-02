@@ -16,7 +16,7 @@ import { toast } from 'react-toastify';
 import { FormMain, TeacherFormContainer } from './styles';
 
 const schema = Yup.object({
-  nome: Yup.string().required('Nome é obrigatório'),
+  name: Yup.string().required('Nome é obrigatório'),
   avatar: Yup.string().required('Avatar é obrigatório'),
   whatsapp: Yup.string().required('Whatsapp é obrigatório'),
   bio: Yup.string().required('Biografia é obrigatória'),
@@ -41,7 +41,7 @@ export interface ScheduleItem {
 }
 
 export interface CreateUserFormData {
-  nome: string;
+  name: string;
   avatar: string;
   whatsapp: string;
   bio: string;
@@ -56,7 +56,7 @@ export function TeacherForm() {
   const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      nome: '',
+      name: '',
       avatar: '',
       whatsapp: '',
       bio: '',
@@ -79,10 +79,10 @@ export function TeacherForm() {
 
 
   const handleCreateSessionSlider = async (data: CreateUserFormData) => {
-    const { nome, avatar, whatsapp, bio, subject, cost, schedule } = data
+    const { name, avatar, whatsapp, bio, subject, cost, schedule } = data
 
     await api.post('users', {
-      nome, avatar, whatsapp, bio, subject, cost, schedule
+      name, avatar, whatsapp, bio, subject, cost, schedule
     })
 
     if (data !== undefined) {
@@ -108,9 +108,9 @@ export function TeacherForm() {
 
 
             <Input
-              name='nome'
+              name='name'
               label="Nome completo"
-              error={errors.nome}
+              error={errors.name}
               control={control}
             />
 

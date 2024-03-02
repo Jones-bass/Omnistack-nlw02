@@ -4,7 +4,7 @@ import { ErrosText, InputBlock } from './styles';
 import { Control, Controller, FieldError } from 'react-hook-form';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  name: "nome" | "avatar" | "whatsapp" | "bio" | "time" | "subject" | "cost" | `schedule.${number}.from` | `schedule.${number}.to` | `schedule.${number}.week_day`;
+  name: "name" | "avatar" | "whatsapp" | "bio" | "time" | "subject" | "cost" | `schedule.${number}.from` | `schedule.${number}.to` | `schedule.${number}.week_day`;
   label?: string;
   error?: FieldError;
   control: Control | any

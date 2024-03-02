@@ -6,7 +6,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { v4 as uuidV4 } from 'uuid'
-import { Classes } from './Classes'
+import { Class } from './Class'
 
 @Entity('class_schedule')
 export class ClassSchedule {
@@ -16,9 +16,9 @@ export class ClassSchedule {
   @Column({ type: 'text' })
   class_id: string
 
-  @ManyToOne(() => Classes, (classEntity) => classEntity.class_schedule)
+  @ManyToOne(() => Class, (classEntity) => classEntity.class_schedule)
   @JoinColumn({ name: 'class_id' })
-  class: Classes
+  class: Class
 
   @Column({ type: 'integer' })
   week_day: number
