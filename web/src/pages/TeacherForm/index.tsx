@@ -5,13 +5,14 @@ import { PageHeader } from '../../components/PageHeader';
 import { Input } from '../../components/Input';
 import { Select } from '../../components/Select';
 import { Loading } from '../../components/loading';
+import { TextArea } from '../../components/TextArea';
 
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useFieldArray, useForm } from 'react-hook-form';
 
-import { api } from '../../services/api';
 import { toast } from 'react-toastify';
+import { api } from '../../services/api';
 
 import { FormMain, TeacherFormContainer } from './styles';
 
@@ -23,7 +24,7 @@ const schema = Yup.object({
   subject: Yup.string().required('Matéria é obrigatória'),
   cost: Yup.number()
     .required('O custo é obrigatório')
-    .typeError('O custo deve ser um número') 
+    .typeError('O custo deve ser um número')
     .min(20, 'O custo não acima de R$20'),
   schedule: Yup.array().of(
     Yup.object({
@@ -34,20 +35,18 @@ const schema = Yup.object({
   )
 });
 
-export interface ScheduleItem {
-  week_day: number;
-  from: string;
-  to: string;
-}
-
-export interface CreateUserFormData {
+export interface UserFormData {
   name: string;
   avatar: string;
   whatsapp: string;
   bio: string;
   subject: string;
   cost: number;
-  schedule: ScheduleItem[];
+  schedule: {
+    week_day: number;
+    from: string;
+    to: string;
+  }
 }
 
 export function TeacherForm() {
@@ -62,13 +61,7 @@ export function TeacherForm() {
       bio: '',
       subject: '',
       cost: 0,
-      schedule: [
-        {
-          week_day: 0,
-          from: '',
-          to: '',
-        }
-      ]
+      schedule: [{ week_day: 0, from: '', to: '' }]
     }
   });
 
@@ -77,22 +70,23 @@ export function TeacherForm() {
     name: "schedule"
   });
 
+  async function hamdleCreateUser(data: UserFormData) {
+    setLoading(true);
 
-  const handleCreateSessionSlider = async (data: CreateUserFormData) => {
-    const { name, avatar, whatsapp, bio, subject, cost, schedule } = data
+    try {
+      await api.post('users', {
+        ...data
+      });
 
-    await api.post('users', {
-      name, avatar, whatsapp, bio, subject, cost, schedule
-    })
-
-    if (data !== undefined) {
-      toast.success('Classe criada com sucesso!')
-      return;
+      console.log(data)
+      toast.success('Classe criada com sucesso!');
+    } catch (error) {
+      toast.error('Erro ao criar a classe!');
     }
-    toast.error('Erro ao criar a classe!')
 
-    setLoading(false)
-  }
+    setLoading(false);
+  };
+
 
   return (
     <TeacherFormContainer>
@@ -102,11 +96,9 @@ export function TeacherForm() {
       />
 
       <FormMain>
-        <form onSubmit={handleSubmit(handleCreateSessionSlider)}>
+        <form onSubmit={handleSubmit(hamdleCreateUser)}>
           <fieldset>
             <legend>Seus dados</legend>
-
-
             <Input
               name='name'
               label="Nome completo"
@@ -128,7 +120,7 @@ export function TeacherForm() {
               control={control}
             />
 
-            <Input
+            <TextArea
               name='bio'
               label="Biografia"
               error={errors.bio}
@@ -181,13 +173,13 @@ export function TeacherForm() {
                   name={`schedule.${index}.week_day`}
                   label="Dia da Semana"
                   options={[
-                    { value: '0', label: 'Domingo' },
-                    { value: '1', label: 'Segunda-Feira' },
-                    { value: '2', label: 'Terça-Feira' },
-                    { value: '3', label: 'Quarta-Feira' },
-                    { value: '4', label: 'Quinta-Feira' },
-                    { value: '5', label: 'Sexta-Feira' },
-                    { value: '6', label: 'Sabado' },
+                    { value: '1', label: 'Domingo' },
+                    { value: '2', label: 'Segunda-Feira' },
+                    { value: '3', label: 'Terça-Feira' },
+                    { value: '4', label: 'Quarta-Feira' },
+                    { value: '5', label: 'Quinta-Feira' },
+                    { value: '6', label: 'Sexta-Feira' },
+                    { value: '7', label: 'Sabado' },
                   ]}
                   error={errors.schedule && errors.schedule[index]?.week_day}
                   control={control}
@@ -199,7 +191,6 @@ export function TeacherForm() {
                   type="time"
                   error={errors.schedule && errors.schedule[index]?.from}
                   control={control}
-
                 />
 
                 <Input

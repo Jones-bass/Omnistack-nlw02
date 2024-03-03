@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 
 import { PageHeader } from '../../components/PageHeader';
 import { Select } from '../../components/Select';
@@ -12,44 +12,41 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 
 import { Loading } from '../../components/loading';
-import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import { Teacher, TeacherItem } from '../../components/TeacherItem';
+import { toast } from 'react-toastify';
+import { IconList } from '../../components/IconList';
 
 const schema = Yup.object({
   subject: Yup.string().required('Matéria é obrigatória'),
-  week_day: Yup.number().required('Dia da semana é obrigatório'),
+  week_day: Yup.string().required('Dia da semana é obrigatório'),
   time: Yup.string().required('Horário de início é obrigatório'),
-
-    })
+})
 
 export interface ScheduleItem {
   subject: string;
-  week_day: number;
+  week_day: string;
   time: string;
-    id: number;
-    avatar: string;
-    bio: string;
-    cost: number;
-    name: string;
-    whatsapp: string;
 }
 
 export function TeacherList() {
   const [loading, setLoading] = useState(false)
-  const [teachers, setTeachers] = useState<ScheduleItem[]>([]);
+
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
 
   const { control, handleSubmit, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      week_day: 0,
+      week_day: '',
       subject: '',
-      time: '',    
+      time: '',
     }
   });
 
   async function searchTeachers(data: ScheduleItem) {
     const { time, week_day, subject } = data;
+
+    setLoading(true)
 
     try {
       const response = await api.get('users', {
@@ -60,9 +57,10 @@ export function TeacherList() {
         },
       });
       setTeachers(response.data);
-      console.log(response.data); // Verificar se os dados estão chegando corretamente
+      setLoading(false)
+      console.log(response.data);
     } catch (error) {
-      console.error('Erro ao buscar professores:', error);
+      toast.error('Erro ao buscar professores');
     }
   }
 
@@ -78,7 +76,7 @@ export function TeacherList() {
               { value: 'Biologia', label: 'Biologia' },
               { value: 'Ciências', label: 'Ciências' },
               { value: 'Educação física', label: 'Educação física' },
-              { value: 'Física', label: 'Fís  ica' },
+              { value: 'Física', label: 'Física' },
               { value: 'Geografia', label: 'Geografia' },
               { value: 'História', label: 'História' },
               { value: 'Matemática', label: 'Matemática' },
@@ -94,13 +92,13 @@ export function TeacherList() {
             name="week_day"
             label="Dia da semana"
             options={[
-              { value: '0', label: 'Domingo' },
-              { value: '1', label: 'Segunda-feira' },
-              { value: '2', label: 'Terça-feira' },
-              { value: '3', label: 'Quarta-feira' },
-              { value: '4', label: 'Quinta-feira' },
-              { value: '5', label: 'Sexta-feira' },
-              { value: '6', label: 'Sábado' },
+              { value: '1', label: 'Domingo' },
+              { value: '2', label: 'Segunda-feira' },
+              { value: '3', label: 'Terça-feira' },
+              { value: '4', label: 'Quarta-feira' },
+              { value: '5', label: 'Quinta-feira' },
+              { value: '6', label: 'Sexta-feira' },
+              { value: '7', label: 'Sábado' },
             ]}
             error={errors.week_day}
             control={control}
@@ -121,9 +119,13 @@ export function TeacherList() {
         </SearchTeachers>
       </PageHeader>
       <main>
-        {teachers.map((teacher: Teacher) => (
-          <TeacherItem key={teacher.id} teacher={teacher} />
-        ))}
+        {teachers.length > 0 ? (
+          teachers.map((teacher) => (
+            <TeacherItem key={teacher.class.id} teacher={teacher} />
+          ))
+        ) : (
+          <IconList />
+        )}
       </main>
     </PageTeacherList>
   )

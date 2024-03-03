@@ -16,14 +16,14 @@ interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
 export function Select({ label, name, options, error, control, ...rest }: SelectProps) {
   return (
-    <SelectBlock className="select-block">
+    <SelectBlock>
       <label htmlFor={name}>{label}</label>
       <Controller
         name={name}
         control={control}
         render={({ field }) => (
           <select id={name} {...field} {...rest}>
-            <option value="" disabled hidden>Selecione uma opção</option>
+            <option value="" disabled hidden>{label}</option>
 
             {options.map(option => {
               return (

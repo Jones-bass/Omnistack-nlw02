@@ -23,6 +23,6 @@ export class CreateUsersController {
       console.log(err)
     }
 
-    return response.status(201).json({ Usuario: 'Criado com sucesso' })
+    return response.status(201).json({ Message: 'Usuário cadastrado com sucesso' })
   }
 }

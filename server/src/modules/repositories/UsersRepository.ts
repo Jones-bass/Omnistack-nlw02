@@ -77,14 +77,14 @@ export class UsersRepository implements IUsersRepository {
           week_day,
           to: convertHoursToMinutes(to),
         },
-        relations: ['class', 'class.user'], // Adiciona o relacionamento com o usuário
+        relations: ['class', 'class.user'],
       })
 
       return listClassesOn
     } else if (subject) {
       const listClassesOn = await this.classesRepository.find({
         where: { subject },
-        relations: ['user'], // Adiciona o relacionamento com o usuário
+        relations: ['user'],
       })
       return listClassesOn
     }

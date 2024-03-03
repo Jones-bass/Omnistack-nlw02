@@ -6,10 +6,9 @@ import { TeacherItemWrapper } from "./styles";
 
 export interface Teacher {
   class: {
-    id: string;
+    id: string | null | undefined;
     cost: number;
     subject: string;
-
     user: {
       avatar: string;
       bio: string;
