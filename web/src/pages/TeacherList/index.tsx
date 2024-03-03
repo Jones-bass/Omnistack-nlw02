@@ -15,7 +15,7 @@ import { Loading } from '../../components/loading';
 import { api } from '../../services/api';
 import { Teacher, TeacherItem } from '../../components/TeacherItem';
 import { toast } from 'react-toastify';
-import { IconList } from '../../components/IconList';
+import { ImageSearch } from '../../components/ImageSearch';
 
 const schema = Yup.object({
   subject: Yup.string().required('Matéria é obrigatória'),
@@ -124,7 +124,7 @@ export function TeacherList() {
             <TeacherItem key={teacher.class.id} teacher={teacher} />
           ))
         ) : (
-          <IconList />
+          <ImageSearch />
         )}
       </main>
     </PageTeacherList>

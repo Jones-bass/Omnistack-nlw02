@@ -23,4 +23,11 @@ export class ConnectionsRepository implements IConnectionsRepository {
 
     return createUser
   }
+
+  async list(total: string): Promise<number> {
+    const [, totalCount] = await this.repository.findAndCount()
+
+    console.log(total)
+    return totalCount
+  }
 }

@@ -6,4 +6,5 @@ export interface ICreateConnectionsDTO {
 
 export interface IConnectionsRepository {
   create(data: ICreateConnectionsDTO): Promise<Connections>
+  list(total: string): Promise<number>
 }

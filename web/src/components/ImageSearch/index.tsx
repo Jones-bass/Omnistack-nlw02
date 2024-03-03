@@ -1,7 +1,7 @@
 import List from '../../../src/assets/images/logo.svg'
 import { ImageLogo, ContainerImage,  } from './styles'
 
-export const IconList = () => {
+export function ImageSearch() {
   return (
     <ContainerImage>
       <ImageLogo>

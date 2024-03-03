@@ -4,7 +4,7 @@ export const TeacherFormContainer = styled.div``;
 
 export const FormMain = styled.main`
   background: ${(props) => props.theme.boxBase};
-  width: 55vw;
+  width: 57vw;
   border-radius: 0.8rem 0.8rem 0 0;
   margin: auto;
   overflow: hidden;

@@ -45,7 +45,7 @@ export const HeaderContent = styled.div`
 
   strong {
     font: 700 2rem Archivo;
-    margin-top: 5rem;
+    margin-top: 10rem;
     line-height: 2.5rem;
     color: ${(props) => props.theme.titleInPrimary};
     max-width: 450px;

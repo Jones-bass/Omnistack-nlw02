@@ -8,8 +8,24 @@ import giveClassesIcon from '../../assets/images/icons/give-classes.svg';
 import purpleHeartIcon from '../../assets/images/icons/purple-heart.svg';
 
 import { ButtonsContainer, LogoContainer, PageLanding, TotalConnections, Container, HeroImage } from './styles';
+import { useEffect, useState } from 'react';
+import { api } from '../../services/api';
 
-export function Landing() {
+interface TotalConnectionsResponse {
+  total: number;
+}
+
+export function Landing({}: TotalConnectionsResponse ) {
+  const [totalConnections, setTotalConnections] = useState(0);
+
+  useEffect(() => {
+    api.get('/users/connections')
+      .then(response => {
+        setTotalConnections(response.data.total);
+        console.log(response.data.total)
+      })
+  }, []);
+
   return (
     <PageLanding>
       <Container>
@@ -29,7 +45,7 @@ export function Landing() {
           </Link>
         </ButtonsContainer>
         <TotalConnections>
-          Total de 02 conexões já realizadas <img src={purpleHeartIcon} alt="Coração roxo" />
+          Total de {totalConnections ?? '...'} conexões já realizadas <img src={purpleHeartIcon} alt="Coração roxo" />
         </TotalConnections>
       </Container>
     </PageLanding>
