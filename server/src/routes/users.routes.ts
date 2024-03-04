@@ -2,7 +2,7 @@ import { Router } from 'express'
 import { CreateUsersController } from '../modules/useCases/createUsers/CreateUsersController'
 import { ListClassesController } from '../modules/useCases/listClasses/ListClassesController'
 import { CreateConnectionsController } from '../modules/useCases/createConnections/CreateConnectionsController'
-import { ListConnectionsController } from '../modules/useCases/listConnections /ListConnectionsController'
+import { ListConnectionsController } from '../modules/useCases/listConnections/ListConnectionsController'
 
 export const usersRoutes = Router()
 
