@@ -7,8 +7,15 @@ import studyIcon from '../../assets/images/icons/study.png';
 import giveClassesIcon from '../../assets/images/icons/give-classes.png';
 
 import { ButtonPrimary, ButtonSecundary, ButtonText, ButtonsContainer, ContainerLanding, Logo, Title, TitleBold, TotalConnections } from './styles';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 
 export function Landing() {
+  const navigation = useNavigation();
+
+  function handleGoBack() {
+    navigation.dispatch(CommonActions.navigate({ name: 'teacherList' }));
+  }
+
   return (
     <ContainerLanding>
       <Logo source={landingImg} />
@@ -19,7 +26,7 @@ export function Landing() {
       </Title>
 
       <ButtonsContainer>
-        <ButtonPrimary>
+        <ButtonPrimary onPress={handleGoBack}>
           <ButtonText>Estudar
           <Image source={studyIcon} />
 
