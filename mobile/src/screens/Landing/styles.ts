@@ -16,13 +16,15 @@ export const Logo = styled.Image`
 `;
 
 export const Title = styled.Text`
-  color: ${theme.colors.titleInPrimary};
+  color: ${theme.colors.titleInWhite};
+  font-family: 'Poppins_400Regular';
   font-size: 20px;
   line-height: 30px;
   margin-top: 80px;
 `;
 
 export const TitleBold = styled.Text`
+  font-family: 'Poppins_600SemiBold';
 `;
 
 export const ButtonsContainer = styled.View`
@@ -52,12 +54,14 @@ export const ButtonSecundary = styled(Button)`
 `;
 
 export const ButtonText = styled.Text`
-  color: ${theme.colors.titleInPrimary};
+  color: ${theme.colors.titleInWhite};
+  font-family: 'Archivo_700Bold';
   font-size: 20px;
 `;
 
 export const TotalConnections = styled.Text`
-  color: #d4c2ff;
+  color: ${theme.colors.textInPrimary};
+  font-family: 'Poppins_400Regular';
   font-size: 12px;
   line-height: 20px;
   max-width: 140px;

@@ -11,7 +11,7 @@ export const theme = extendTheme({
     primaryDarker: '#6842C2',
     secundary: '#04D361',
     secundaryDark: '#04BF58',
-    titleInPrimary: '#FFFFFF',
+    titleInWhite: '#FFF',
     textInPrimary: '#D4C2FF',
     textTitle: '#32264D',
     textComplement: '#9C98A6',

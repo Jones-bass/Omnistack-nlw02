@@ -3,25 +3,25 @@ import { ThemeProvider } from "styled-components/native";
 
 import {
   useFonts,
-  Inter_400Regular,
-  Inter_600SemiBold,
-  Inter_700Bold,
-  Inter_900Black,
-} from '@expo-google-fonts/inter'
+  Archivo_400Regular,
+  Archivo_700Bold,
+} from '@expo-google-fonts/archivo';
+import {
+  Poppins_400Regular,
+  Poppins_600SemiBold,
+} from '@expo-google-fonts/poppins';
 
 import { Loading } from "./src/components/Loading";
 
 import { theme } from "./src/theme";
-import { TeacherList } from "./src/screens/TeacherList";
-import { Landing } from "./src/screens/Landing";
 import { Routes } from "./src/routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
-    Inter_400Regular,
-    Inter_600SemiBold,
-    Inter_700Bold,
-    Inter_900Black,
+    Archivo_400Regular,
+    Archivo_700Bold,
+    Poppins_400Regular,
+    Poppins_600SemiBold,
   });
 
   return (

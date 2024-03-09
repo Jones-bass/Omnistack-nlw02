@@ -1,14 +1,13 @@
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
+import { theme } from '../../theme';
 
 export const ContainerHeader = styled.View`
   padding: 40px;
-  background-color: #8257e5;
+  background-color: ${theme.colors.primary};
 `;
 
-export const BorderlessButton = styled(TouchableOpacity)`
-
-`;
+export const BorderlessButton = styled(TouchableOpacity)``;
 
 export const TopBar = styled.View`
   flex-direction: row;
@@ -23,9 +22,8 @@ export const Header = styled.View`
 `;
 
 export const Title = styled.Text`
-  color: #fff;
+  color:${theme.colors.titleInWhite};
+  font-family: 'Archivo_400Regular';    
   font-size: 24px;
-  line-height: 32px;
   max-width: 180px;
   `;
-//  margin-vertical: 40px;
