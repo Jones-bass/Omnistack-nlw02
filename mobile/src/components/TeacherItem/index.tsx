@@ -1,12 +1,10 @@
+import { useState } from 'react';
 import { Image } from 'react-native';
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
 import whatsappIcon from '../../assets/images/icons/whatsapp.png';
 
 import { Avatar, BioText, ButtonsContainer, ContactButton, ContactButtonText, Container, FavoriteButton, Footer, NameText, PriceText, PriceValueText, Profile, ProfileInfo, SubjectText } from './styles';
-import { useState } from 'react';
-
-
 
 export function TeacherItem() {
   const [isFavorited, setIsFavorited] = useState(false);
@@ -42,9 +40,6 @@ export function TeacherItem() {
             <Image source={whatsappIcon} />
             <ContactButtonText>Entrar em contato</ContactButtonText>
           </ContactButton>
-
-        
-
         </ButtonsContainer>
       </Footer>
     </Container>

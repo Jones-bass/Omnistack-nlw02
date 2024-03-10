@@ -11,12 +11,14 @@ import { BorderlessButton, ContainerHeader, Header, Title, TopBar } from './styl
 interface PageHeaderProps {
   children: ReactNode
   title: string;
+  headerRight?: () => JSX.Element;
 }
 
 export function PageHeader({
   title,
+  headerRight,
   children,
-}: PageHeaderProps) {
+  }: PageHeaderProps) {
   const navigation = useNavigation();
 
   function handleGoBack() {
@@ -36,6 +38,8 @@ export function PageHeader({
 
       <Header>
         <Title>{title}</Title>
+        {headerRight && headerRight()}
+
       </Header>
 
       {children}
