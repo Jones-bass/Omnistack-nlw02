@@ -14,7 +14,7 @@ import {
 import { Loading } from "./src/components/Loading";
 
 import { theme } from "./src/theme";
-import { Routes } from "./src/routes";
+import { AppRoutes } from "./src/routes/app.routes";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -31,7 +31,7 @@ export default function App() {
         backgroundColor="transparent"
         translucent
       />
-      {fontsLoaded ? <Routes /> : <Loading />}
+      {fontsLoaded ? <AppRoutes /> : <Loading />}
     </ThemeProvider>
   );
 }

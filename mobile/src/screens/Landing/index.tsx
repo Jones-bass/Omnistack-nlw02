@@ -13,7 +13,7 @@ export function Landing() {
   const navigation = useNavigation();
 
   function handleGoBack() {
-    navigation.dispatch(CommonActions.navigate({ name: 'teacherList' }));
+    navigation.dispatch(CommonActions.navigate({ name: 'study' }));
   }
 
   return (
