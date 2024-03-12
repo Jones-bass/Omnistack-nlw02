@@ -3,8 +3,7 @@ import { Image } from 'react-native';
 import landingImg from '../../assets/images/landing.png';
 import heartIcon from '../../assets/images/icons/heart.png';
 
-import studyIcon from '../../assets/images/icons/study.png';
-import giveClassesIcon from '../../assets/images/icons/give-classes.png';
+import { Feather } from '@expo/vector-icons';
 
 import { ButtonPrimary, ButtonSecundary, ButtonText, ButtonsContainer, ContainerLanding, Logo, Title, TitleBold, TotalConnections } from './styles';
 import { CommonActions, useNavigation } from '@react-navigation/native';
@@ -12,8 +11,12 @@ import { CommonActions, useNavigation } from '@react-navigation/native';
 export function Landing() {
   const navigation = useNavigation();
 
-  function handleGoBack() {
+  function handleNavigateToStudyPages() {
     navigation.dispatch(CommonActions.navigate({ name: 'study' }));
+  }
+
+  function handleNavigateToGiveClassesPage() {
+    navigation.dispatch(CommonActions.navigate({ name: 'giveClasses' }));
   }
 
   return (
@@ -26,17 +29,15 @@ export function Landing() {
       </Title>
 
       <ButtonsContainer>
-        <ButtonPrimary onPress={handleGoBack}>
+        <ButtonPrimary onPress={handleNavigateToStudyPages}>
+          <Feather name="book-open" size={40} color="white" />
           <ButtonText>Estudar
-          <Image source={studyIcon} />
-
           </ButtonText>
         </ButtonPrimary>
-        
-        <ButtonSecundary>
-          <ButtonText>Dar aulas
-          <Image source={giveClassesIcon} />
 
+        <ButtonSecundary onPress={handleNavigateToGiveClassesPage}>
+          <Feather name="tv" size={40} color="white" />
+          <ButtonText>Dar aulas
           </ButtonText>
         </ButtonSecundary>
       </ButtonsContainer>

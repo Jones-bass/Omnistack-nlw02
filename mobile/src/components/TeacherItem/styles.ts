@@ -99,7 +99,7 @@ export const ContactButton = styled(TouchableOpacity)`
 `;
 
 export const ContactButtonText = styled.Text`
-  color: ${theme.colors.textInPrimary};
+  color: ${theme.colors.buttonText};
   font-family: 'Archivo_700Bold';
   font-size: 16px;
   margin-left: 16px;

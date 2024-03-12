@@ -19,7 +19,7 @@ export function Landing({}: TotalConnectionsResponse ) {
   const [totalConnections, setTotalConnections] = useState(0);
 
   useEffect(() => {
-    api.get('/users/connections')
+    api.get('/connections')
       .then(response => {
         setTotalConnections(response.data.total);
         console.log(response.data.total)

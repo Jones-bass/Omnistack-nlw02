@@ -9,16 +9,23 @@ const Tab = createBottomTabNavigator();
 
 export function StudyTabs() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator screenOptions={{
+      headerShown: false,
+      tabBarLabelStyle: {
+        color: '#8257e5', 
+      },
+    }}
+  >
     <Tab.Screen
       name="Proffys"
+
       component={TeacherList}
       options={{
-        tabBarIcon: ({ color, size, focused }) => (
+        tabBarIcon: ({ size, focused }) => (
           <Ionicons
             name={focused ? 'ios-easel' : 'ios-easel-outline'}
             size={size}
-            color={focused ? '#8257e5' : color}
+            color={focused ? '#8257e5' : '#6A6180'}
             />
         ),
       }}
@@ -27,11 +34,11 @@ export function StudyTabs() {
       name="favorites"
       component={Favorites}
       options={{
-        tabBarIcon: ({ color, size, focused }) => (
+        tabBarIcon: ({ size, focused }) => (
           <Ionicons
             name={focused ? 'ios-heart' : 'ios-heart-outline'}
             size={size}
-            color={focused ? '#8257e5' : color}
+            color={focused ? '#8257e5' : '#6A6180'}
             />
         ),
       }}
