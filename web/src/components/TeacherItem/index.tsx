@@ -25,7 +25,7 @@ interface TeacherItemProps {
 
 export function TeacherItem({teacher}: TeacherItemProps) {
   const handleCreateNewConnection = useCallback(() => {
-    api.post('/users/connections', { user_id: teacher });
+    api.post('/connections', { user_id: teacher });
   }, [teacher]);
 
   return (

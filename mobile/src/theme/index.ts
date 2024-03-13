@@ -22,5 +22,5 @@ export const theme = extendTheme({
     boxBase: '#FFFFFF',
     boxFooter: '#FAFAFC',
     alert: '#AF0000'
-  },
-});
+  } as const
+}); 

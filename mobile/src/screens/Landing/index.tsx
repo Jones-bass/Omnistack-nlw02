@@ -1,3 +1,6 @@
+import { CommonActions, useNavigation } from '@react-navigation/native';
+import { useEffect, useState } from 'react';
+
 import { Image } from 'react-native';
 
 import landingImg from '../../assets/images/landing.png';
@@ -6,10 +9,15 @@ import heartIcon from '../../assets/images/icons/heart.png';
 import { Feather } from '@expo/vector-icons';
 
 import { ButtonPrimary, ButtonSecundary, ButtonText, ButtonsContainer, ContainerLanding, Logo, Title, TitleBold, TotalConnections } from './styles';
-import { CommonActions, useNavigation } from '@react-navigation/native';
+import { api } from '../../services/api';
 
-export function Landing() {
+interface TotalConnectionsResponse {
+  total: number;
+}
+
+export function Landing({}: TotalConnectionsResponse) {
   const navigation = useNavigation();
+  const [totalConnections, setTotalConnections] = useState(0);
 
   function handleNavigateToStudyPages() {
     navigation.dispatch(CommonActions.navigate({ name: 'study' }));
@@ -18,6 +26,13 @@ export function Landing() {
   function handleNavigateToGiveClassesPage() {
     navigation.dispatch(CommonActions.navigate({ name: 'giveClasses' }));
   }
+
+  useEffect(() => {
+    api.get('/connections')
+      .then(response => {
+        setTotalConnections(response.data.total);
+      });
+  }, []);
 
   return (
     <ContainerLanding>
@@ -43,7 +58,7 @@ export function Landing() {
       </ButtonsContainer>
 
       <TotalConnections>
-        Total de 02 conexões já realizadas {' '}
+        Total de {totalConnections} conexões já realizadas {' '}
         <Image source={heartIcon} />
       </TotalConnections>
     </ContainerLanding>

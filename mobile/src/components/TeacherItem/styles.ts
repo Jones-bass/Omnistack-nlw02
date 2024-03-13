@@ -9,10 +9,10 @@ interface PropsButtons {
 export const Container = styled.View`
 
   background-color: ${theme.colors.titleInWhite};
-  border-width: 1px;
+  border-width: 2px;
   border-color: ${theme.colors.background};
   border-radius: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   overflow: hidden;
 `;
 
@@ -55,8 +55,8 @@ export const BioText = styled.Text`
 `;
 
 export const Footer = styled.View`
-  background-color: ${theme.colors.boxFooter};
-  padding: 24px;
+  background-color: ${theme.colors.titleInWhite};
+  padding: 0px 24px 14px 24px;
   margin-top: 24px;
 `;
 

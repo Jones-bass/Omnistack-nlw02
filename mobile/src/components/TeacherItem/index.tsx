@@ -1,13 +1,42 @@
-import { useState } from 'react';
-import { Image } from 'react-native';
+import { useCallback, useState } from 'react';
+import { Image, Linking } from 'react-native';
 import heartOutlineIcon from '../../assets/images/icons/heart-outline.png';
 import unfavoriteIcon from '../../assets/images/icons/unfavorite.png';
 import whatsappIcon from '../../assets/images/icons/whatsapp.png';
 
 import { Avatar, BioText, ButtonsContainer, ContactButton, ContactButtonText, Container, FavoriteButton, Footer, NameText, PriceText, PriceValueText, Profile, ProfileInfo, SubjectText } from './styles';
+import { api } from '../../services/api';
 
-export function TeacherItem() {
+export interface Teacher {
+  class: {
+    id: string | null | undefined;
+    cost: number;
+    subject: string;
+    user: {
+      avatar: string;
+      bio: string;
+      name: string;
+      whatsapp: string;
+    };
+  };
+}
+
+
+interface TeacherItemProps {
+  teacher: Teacher;
+}
+
+
+
+export function TeacherItem({teacher}: TeacherItemProps) {
   const [isFavorited, setIsFavorited] = useState(false);
+  
+  const handleCreateNewConnection = useCallback(() => {
+    api.post('/connections', { user_id: teacher });
+
+    Linking.openURL(`whatsapp://send?phone=+55${teacher.class.user.whatsapp}`);
+
+  }, [teacher.class.id, teacher.class.user.whatsapp]);
 
   const handleToggleFavorite = () => {
     setIsFavorited(!isFavorited);
@@ -16,20 +45,20 @@ export function TeacherItem() {
   return (
     <Container>
       <Profile>
-        <Avatar source={{ uri: "https://github.com/jones-bass.png" }} />
+        <Avatar source={{uri: teacher.class.user.avatar}} />
 
         <ProfileInfo>
-          <NameText>Jones Souza</NameText>
-          <SubjectText>Matemática</SubjectText>
+          <NameText>{teacher.class.user.name}</NameText>
+          <SubjectText>{teacher.class.subject}</SubjectText>
         </ProfileInfo>
       </Profile>
 
-      <BioText>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eum nulla mollitia porro at quos laudantium illum cupiditate reprehenderit id, aspernatur qui ullam nobis earum expedita vero repudiandae aliquid impedit hic.</BioText>
+      <BioText>{teacher.class.user.bio}</BioText>
 
       <Footer>
         <PriceText>
           Preço/hora {'   '}
-          <PriceValueText>$ 190,00</PriceValueText>
+          <PriceValueText>$ {teacher.class.cost}</PriceValueText>
         </PriceText>
 
         <ButtonsContainer >
@@ -38,7 +67,7 @@ export function TeacherItem() {
       </FavoriteButton>
           <ContactButton>
             <Image source={whatsappIcon} />
-            <ContactButtonText>Entrar em contato</ContactButtonText>
+            <ContactButtonText onPress={handleCreateNewConnection}>Entrar em contato</ContactButtonText>
           </ContactButton>
         </ButtonsContainer>
       </Footer>
