@@ -11,10 +11,14 @@ import { RNPickerSelect } from '../../components/RNPickerSelect';
 import { Item } from 'react-native-picker-select';
 import { api } from '../../services/api';
 import { ImageSearch } from '../../components/ImageSearch';
+import { useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export function TeacherList() {
 
   const [isFiltersVisible, setIsFiltersVisible] = useState(true);
+  const [favorites, setFavorites] = useState<number[]>([]);
+
   const [week_day, setWeek_day] = useState('');
   const [teachers, setTeachers] = useState([]);
 
@@ -28,23 +32,10 @@ export function TeacherList() {
   const handleSubjectChange = (text: string) => {
     setSubject(text);
   };
-  
+
   const handleTimeChange = (text: string) => {
     setTime(text);
   };
-
-  const handleFiltersSubmit = useCallback(async () => {
-    const response = await api.get('users', {
-      params: {
-        subject,
-        week_day,
-        time,
-      },
-    });
-
-    setTeachers(response.data);
-    setIsFiltersVisible(false);
-  }, [subject, week_day, time]);
 
   const weekOptions = useMemo<Item[]>(() => {
     return [
@@ -57,6 +48,38 @@ export function TeacherList() {
       { value: '7', label: 'Sábado' },
     ];
   }, []);
+
+  const loadFavorites = useCallback(async () => {
+    const response = await AsyncStorage.getItem('@Proffy:favorites');
+
+    if (response) {
+      const favoritedTeachers = JSON.parse(response);
+      const favoritedTeachersIds = favoritedTeachers.map(
+        (teacher: Teacher) => teacher.class.id,
+      );
+
+      setFavorites(favoritedTeachersIds);
+    }
+  }, []);
+
+  useFocusEffect(() => {
+    loadFavorites();
+  });
+
+  const handleFiltersSubmit = useCallback(async () => {
+    loadFavorites();
+
+    const response = await api.get('users', {
+      params: {
+        subject,
+        week_day,
+        time,
+      },
+    });
+
+    setTeachers(response.data);
+    setIsFiltersVisible(false);
+  }, [loadFavorites, subject, week_day, time]);
 
   const RenderRightIcon = useCallback(() => {
     return (
@@ -98,7 +121,7 @@ export function TeacherList() {
                   type='time'
                   value={time}
                   onChangeText={handleTimeChange}
-                  />
+                />
               </InputBlock>
             </InputGroup>
 
@@ -119,12 +142,14 @@ export function TeacherList() {
           paddingBottom: 16,
         }}
       >
-      
-
         {teachers.length > 0 ? (
           teachers.map((teacher: Teacher) => (
-            <TeacherItem key={teacher.class.id} teacher={teacher} />
+            <TeacherItem key={teacher.class.id}
+              teacher={teacher}
+              favorited={favorites.includes(Number(teacher.class.id))}
+            />
           ))
+
         ) : (
           <ImageSearch />
         )}

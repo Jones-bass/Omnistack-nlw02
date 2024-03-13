@@ -7,7 +7,6 @@ interface PropsButtons {
 }
 
 export const Container = styled.View`
-
   background-color: ${theme.colors.titleInWhite};
   border-width: 2px;
   border-color: ${theme.colors.background};

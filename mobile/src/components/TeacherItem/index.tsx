@@ -6,6 +6,7 @@ import whatsappIcon from '../../assets/images/icons/whatsapp.png';
 
 import { Avatar, BioText, ButtonsContainer, ContactButton, ContactButtonText, Container, FavoriteButton, Footer, NameText, PriceText, PriceValueText, Profile, ProfileInfo, SubjectText } from './styles';
 import { api } from '../../services/api';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export interface Teacher {
   class: {
@@ -24,12 +25,11 @@ export interface Teacher {
 
 interface TeacherItemProps {
   teacher: Teacher;
+  favorited: boolean;
 }
 
-
-
-export function TeacherItem({teacher}: TeacherItemProps) {
-  const [isFavorited, setIsFavorited] = useState(false);
+export function TeacherItem({teacher, favorited}: TeacherItemProps) {
+  const [isFavorited, setIsFavorited] = useState(favorited);
   
   const handleCreateNewConnection = useCallback(() => {
     api.post('/connections', { user_id: teacher });
@@ -38,9 +38,33 @@ export function TeacherItem({teacher}: TeacherItemProps) {
 
   }, [teacher.class.id, teacher.class.user.whatsapp]);
 
-  const handleToggleFavorite = () => {
-    setIsFavorited(!isFavorited);
-  };
+  const handleToggleFavorite = useCallback(async () => {
+    const favorites = await AsyncStorage.getItem('@Proffy:favorites');
+
+    let favoritesArray = [];
+
+    if (favorites) {
+      favoritesArray = JSON.parse(favorites);
+    }
+
+    if (isFavorited) {
+      const favoriteIndex = favoritesArray.findIndex(
+        (teacherItem: Teacher) => teacherItem.class.id === teacher.class.id,
+      );
+
+      favoritesArray.splice(favoriteIndex, 1);
+      setIsFavorited(false);
+    } else {
+      favoritesArray.push(teacher);
+
+      setIsFavorited(true);
+    }
+
+    await AsyncStorage.setItem(
+      '@Proffy:favorites',
+      JSON.stringify(favoritesArray),
+    );
+  }, [isFavorited, teacher]);
 
   return (
     <Container>

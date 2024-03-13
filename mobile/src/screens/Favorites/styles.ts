@@ -7,5 +7,5 @@ export const Container = styled.View`
 `;
 
 export const TeacherList = styled(ScrollView)`
-  margin-top: -40px;
+  margin-top: 10px;
 `;
